@@ -1,0 +1,169 @@
+﻿<Window x:Class="TodoList.List"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TodoList" Height="500" Width="800"
+         FontFamily="Meiryo UI" FontSize="16"
+        WindowStartupLocation="CenterScreen"
+        Background="WhiteSmoke">
+
+    <!--  リソース  -->
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Generic.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <!--  /リソース  -->
+    
+    <Grid >
+        <Grid.RowDefinitions >
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Visibility="Hidden" x:Name="_UserID"  ></TextBlock>
+        <Grid Grid.Row="0" x:Name="grid_Container" >
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border BorderBrush="Gray" BorderThickness="1,0,1,0">
+                    <Label x:Name="lb_UserID" Content="aaaさん"  Margin="0,5"/>
+                </Border>
+                 <TreeView Grid.Row="1" Width="185" >
+                    <TreeViewItem x:Name="tvItem_New" Header="・新規作成" Margin="0,10,0,0" Selected="TreeViewItem_Selected" />
+                    <TreeViewItem x:Name="tvItem_js" Header="・受信簿" Foreground="Black"  IsExpanded="True"  Margin="0,10,0,0" Visibility="Visible">
+                        <TreeViewItem x:Name="tvItem_notFinished"  Header="|_未完了" Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem x:Name="tvItem_overdue"  Header="|_期限切れ" Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem x:Name="tvItem_All"  Header="|_ALL" Selected="TreeViewItem_Selected"/>
+                    </TreeViewItem>
+
+                    <TreeViewItem x:Name="tvItem_ss" Header="・送信簿"  Foreground="Black" IsExpanded="True"  Margin="0,10,0,0">
+                        <TreeViewItem x:Name="tvItem_keep" Header="|_発信待ち"  Selected="TreeViewItem_Selected"/>
+                        <TreeViewItem x:Name="tvItem_sent" Header="|_発信済み"  Selected="TreeViewItem_Selected"/>
+                    </TreeViewItem>
+                    <TreeViewItem Header="・利用者"  IsExpanded="True"   Foreground="Black" Margin="0,10,0,0">
+                        <TreeViewItem  x:Name="tvItem_user" HorizontalContentAlignment="Left" Selected="TreeViewItem_Selected"
+                                           Header="|_利用者マスメ"   />
+
+
+                    </TreeViewItem>
+                </TreeView>
+            </Grid>
+            <Grid Grid.Column="1" x:Name="grid_MsgList"   >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border BorderBrush="Gray" BorderThickness="0 0 0 1">
+                    <Grid>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <StackPanel Orientation="Vertical"  >
+                                <Label HorizontalAlignment="Right">タイトル：</Label>
+                                <Label HorizontalAlignment="Right">内容：</Label>
+                                <Label HorizontalAlignment="Right">発信者：</Label>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left"  >
+                                <TextBox x:Name="tb_title" Width="100" FontSize="20"  Margin="0 3 0 0 " VerticalAlignment="Center" ></TextBox>
+                                <TextBox x:Name="tb_context" Width="100" FontSize="20"  Margin="0 3 0 0 " VerticalAlignment="Center" ></TextBox>
+                                <TextBox x:Name="tb_sender" Width="100" FontSize="20"  Margin="0 3 0 0 " VerticalAlignment="Center" ></TextBox>
+                            </StackPanel>
+                        </Grid>
+                        <StackPanel  Grid.Column="2" Margin="5 0 0 10" Orientation="Vertical" VerticalAlignment="Bottom">
+                            <Button x:Name="btn_Search" Width="80"  CommandParameter="btn_Search" Click="Button_Click" >検 索</Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Grid Grid.Row="1" >
+                    <Label x:Name="lb_warning" HorizontalAlignment="Center" Visibility="Hidden" FontSize="20">要求されたデータは見あたりません!</Label>
+                    <DataGrid x:Name="dg_List"  AutoGenerateColumns="False"
+                              VerticalScrollBarVisibility="Visible"
+                              HorizontalScrollBarVisibility="Visible"
+                              Width="Auto" FontSize="15"
+                              CanUserAddRows="False" TextBlock.TextAlignment="Center"   
+                              AllowDrop="True" IsReadOnly="True"  SelectionChanged="dg_List_SelectionChanged"
+                              VerticalContentAlignment="Center"     
+                              >
+                        
+                        <DataGrid.Columns >
+                            <DataGridTextColumn Visibility="Hidden" Binding="{Binding MessageID}" Header="MessageID"></DataGridTextColumn>
+                            <DataGridTemplateColumn Header="種別"     >
+                                <DataGridTemplateColumn.CellTemplate >
+                                     <DataTemplate>
+                                        <ItemsControl HorizontalAlignment="Center"  VerticalAlignment="Center"  ItemsSource="{Binding Type}" FontSize="10"></ItemsControl>
+                                    </DataTemplate>
+                                 </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn  ElementStyle="{StaticResource textBlokStyle}" Width="1*" Binding="{Binding State}"   Header="状況"></DataGridTextColumn>
+                            <DataGridTextColumn  ElementStyle="{StaticResource textBlokStyle}" Width="1*" Binding="{Binding Title}"  Header="タイトル"></DataGridTextColumn>
+                            <DataGridTextColumn  ElementStyle="{StaticResource textBlokStyle}" x:Name="dgtc_SendUserName" Width="1*"  Binding="{Binding SendUserName}" Header="発信者"></DataGridTextColumn>
+                            <DataGridTextColumn  ElementStyle="{StaticResource textBlokStyle}" Width="1*" Binding="{Binding CreatDateTime}"   Header="発信日"></DataGridTextColumn>
+                            <DataGridTextColumn  ElementStyle="{StaticResource textBlokStyle}" x:Name="dgtc_OpenedDateTime" Width="1*" Binding="{Binding OpenedDateTime}" Header="開封日"></DataGridTextColumn>
+                            <DataGridTextColumn  ElementStyle="{StaticResource textBlokStyle}" Width="1*" Binding="{Binding Cmt}" Header="コメント"></DataGridTextColumn>
+                            <DataGridTemplateColumn Header="期限" >
+                                <DataGridTemplateColumn.CellTemplate >
+                                    <DataTemplate  >
+                                        <ItemsControl HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding LimitDateTime}" ></ItemsControl>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Grid>
+            <DataGrid x:Name="datagrid_UserList" Grid.Column="1" AutoGenerateColumns="False"
+                              VerticalScrollBarVisibility="Visible"
+                              HorizontalScrollBarVisibility="Visible"
+                              Width="Auto" FontSize="15" SelectionChanged="dg_List_SelectionChanged"
+                              CanUserAddRows="False" TextBlock.TextAlignment="Center"   
+                              AllowDrop="True" IsReadOnly="True"  Visibility="Hidden"
+                              >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="利用者ID"  ElementStyle="{StaticResource textBlokStyle}" Width="1*" Binding="{Binding UserID}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="利用者名"  ElementStyle="{StaticResource textBlokStyle}" Width="1*" Binding="{Binding UserName}"></DataGridTextColumn>
+                    <DataGridTemplateColumn Header="属所">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ItemsControl HorizontalAlignment="Center" VerticalAlignment="Center"  ItemsSource="{Binding DepartmentName}"></ItemsControl>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn  ElementStyle="{StaticResource textBlokStyle}" Header="権限" Width="1*" Binding="{Binding Authority}"></DataGridTextColumn>
+                    <DataGridTextColumn  ElementStyle="{StaticResource textBlokStyle}" Header="作成日" Width="1*" Binding="{Binding CreatDateTime}"></DataGridTextColumn>
+                    <DataGridTextColumn  ElementStyle="{StaticResource textBlokStyle}" Header="更新日" Width="1*" Binding="{Binding UpdateDateTime}"></DataGridTextColumn>
+                </DataGrid.Columns>
+                
+            </DataGrid>
+        </Grid>
+
+        <!-- 下部ボタンエリア -->
+        <Grid Grid.Row="1" Height="40" Background="#FF8DBBEA">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnLogout" Grid.Column="4" 
+                    Margin="5"
+                    Width="80" Click="Button_Click"
+                    Content="ログアウト"/>
+        </Grid>
+    </Grid>
+</Window>
