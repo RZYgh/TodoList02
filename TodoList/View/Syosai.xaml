@@ -134,17 +134,6 @@
         <Grid Grid.Row="2" Margin="10 0 10 10">
             <TextBlock x:Name="tb_warnning"  Visibility="Hidden" FontSize="15" VerticalAlignment="Center" Foreground="#FFF1C078" HorizontalAlignment="Center">このメッセージはまだ発送してない！</TextBlock>
             <DataGrid x:Name="dg_UserList" AutoGenerateColumns="False"  >
-                <DataGrid.CellStyle>
-                    <Style TargetType="DataGridCell">
-                        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-                        <Style.Triggers >
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="TextBlock.TextWrapping" Value="WrapWithOverflow"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </DataGrid.CellStyle>
-
                 <DataGrid.Columns >
                     <DataGridTextColumn Width="Auto"  ElementStyle="{StaticResource textBlokStyle}"  Header="名前"  Binding="{Binding UserName}"></DataGridTextColumn>
                     <DataGridTextColumn Width="1.5*"  ElementStyle="{StaticResource textBlokStyle}"  Header="開封日" Binding="{Binding OpenedDateTime}"></DataGridTextColumn>
@@ -153,7 +142,6 @@
                     <DataGridTextColumn Width="1*"  ElementStyle="{StaticResource textBlokStyle}"  Header="完了日" Binding="{Binding CompletionDate}"></DataGridTextColumn>
                     <DataGridTextColumn Width="1.5*"  ElementStyle="{StaticResource textBlokStyle}"  Header="コメント登録日" Binding="{Binding CMTDateTime}" ></DataGridTextColumn>
                 </DataGrid.Columns>
-
             </DataGrid>
         </Grid>
         <Border Grid.Row="3" BorderThickness="0" Background="LightSteelBlue"></Border>

@@ -99,13 +99,53 @@
                               AllowDrop="True" IsReadOnly="True"  SelectionChanged="dg_List_SelectionChanged"
                               VerticalContentAlignment="Center"     
                               >
-                        
-                        <DataGrid.Columns >
+                         <DataGrid.Columns >
                             <DataGridTextColumn Visibility="Hidden" Binding="{Binding MessageID}" Header="MessageID"></DataGridTextColumn>
-                            <DataGridTemplateColumn Header="種別"     >
-                                <DataGridTemplateColumn.CellTemplate >
-                                     <DataTemplate>
-                                        <ItemsControl HorizontalAlignment="Center"  VerticalAlignment="Center"  ItemsSource="{Binding Type}" FontSize="10"></ItemsControl>
+                            <DataGridTemplateColumn Header="種別"   Width="60"   >
+                                <DataGridTemplateColumn.CellTemplate  >
+                                     <DataTemplate >
+                                        <ItemsControl ItemsSource="{Binding Type}" VerticalAlignment="Center" >
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel  Style="{StaticResource stackPanelInItemsControlStyle}" >
+                                                     </StackPanel>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                       
+                                        <!--<ListBox ItemsSource="{Binding Type}"  ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                                            <ListBox.ItemsPanel>
+                                                <ItemsPanelTemplate >
+                                                    <WrapPanel Orientation="Horizontal" IsItemsHost="True" />
+                                                </ItemsPanelTemplate>
+                                            </ListBox.ItemsPanel>
+                                        </ListBox>-->
+
+                                        <!--<TextBlock   Text="{Binding Type}">
+                                            <TextBlock.Style>
+                                                <Style >
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=Text, Source=Type}" Value="">
+                                                            
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                            <Run x:Name="Text_run" Foreground="Red" Text="{Binding Type}"></Run>
+                                                 <Run Foreground="Green">G</Run>
+                                                 <Run Foreground="Blue">B</Run>
+                                                 <Run Foreground="Green">G</Run>
+                                                 <Run Foreground="Blue">B</Run>
+                                                 <Run Text="Gradient">
+                                                    <Run.Foreground>
+                                                       <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                          <GradientStop Color="#FF000000" Offset="0"/>
+                                                          <GradientStop Color="#FFFFFFFF" Offset="1"/>
+                                                      </LinearGradientBrush>
+                                                 </Run.Foreground>
+                                                </Run>
+                                            </TextBlock>-->
+                                
                                     </DataTemplate>
                                  </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -130,7 +170,7 @@
                               VerticalScrollBarVisibility="Visible"
                               HorizontalScrollBarVisibility="Visible"
                               Width="Auto" FontSize="15" SelectionChanged="dg_List_SelectionChanged"
-                              CanUserAddRows="False" TextBlock.TextAlignment="Center"   
+                              CanUserAddRows="False"  
                               AllowDrop="True" IsReadOnly="True"  Visibility="Hidden"
                               >
                 <DataGrid.Columns>
@@ -138,8 +178,15 @@
                     <DataGridTextColumn Header="利用者名"  ElementStyle="{StaticResource textBlokStyle}" Width="1*" Binding="{Binding UserName}"></DataGridTextColumn>
                     <DataGridTemplateColumn Header="属所">
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <ItemsControl HorizontalAlignment="Center" VerticalAlignment="Center"  ItemsSource="{Binding DepartmentName}"></ItemsControl>
+                        <DataTemplate >
+                                <ItemsControl ItemsSource="{Binding DepartmentName}" VerticalAlignment="Center"  HorizontalAlignment="Center">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel  Style="{StaticResource stackPanelInItemsControlStyle}" >
+                                            </StackPanel>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

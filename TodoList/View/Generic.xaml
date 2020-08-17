@@ -42,9 +42,7 @@
     <Style TargetType="{x:Type DataGrid}">
         <Setter Property="IsReadOnly" Value="True"></Setter>
     </Style>
-    <!--DataGridColumnsデザイン-->
- 
-    <!-- DataGridセルデザイン -->
+     <!-- DataGridセルデザイン -->
     <Style TargetType="{x:Type DataGridCell}">
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
@@ -52,8 +50,6 @@
                 <Setter Property="Background" Value="#FFF1C078"/>
                 <Setter Property="Foreground" Value="Black"/>
             </Trigger>
-            <Trigger Property="IsMouseOver" Value="True">
-             </Trigger>
          </Style.Triggers>
     </Style>
     
@@ -61,17 +57,27 @@
     
     <Style x:Key="textBlokStyle" TargetType="{x:Type TextBlock}" >
         <Setter Property="TextAlignment" Value="Center"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
          <Style.Triggers>
-        <Trigger Property="IsMouseOver" Value="True">
-            <Setter Property="TextBlock.TextWrapping" Value="Wrap"></Setter>
-        </Trigger>
+            <DataTrigger Binding="{Binding IsMouseOver,RelativeSource={RelativeSource Mode=FindAncestor,
+                AncestorType={x:Type DataGridRow}, AncestorLevel=1}}" Value="True">
+                <Setter Property="TextBlock.TextWrapping" Value="Wrap"></Setter>
+            </DataTrigger>
         </Style.Triggers>
     </Style>
-
-
+    <Style x:Key="stackPanelInItemsControlStyle"  TargetType="{x:Type StackPanel}">
+        <Setter Property="Orientation" Value="Horizontal"></Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsMouseOver,RelativeSource={ RelativeSource Mode=FindAncestor,
+                AncestorType={x:Type DataGridRow},AncestorLevel=1}}" Value="True">
+                <Setter Property="Orientation" Value="Vertical"></Setter>
+            </DataTrigger>
+         </Style.Triggers>
+    </Style>
 
         <!-- DataGrid行デザイン -->
-    <Style TargetType="{x:Type DataGridRow}">
+    <Style x:Key="DataGridRowStyle" TargetType="{x:Type DataGridRow}">
         <!-- 行高さ設定-->
         <Setter Property="MaxHeight" Value="200" />
         <Style.Triggers>

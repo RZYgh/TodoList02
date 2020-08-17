@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.TextFormatting;
 using System.Windows.Shapes;
 using TodoList.Common;
 using TodoList.View;
@@ -31,7 +32,7 @@ namespace TodoList
             ViewData["TableStatus"] = "";
             InitializeComponent();  
             Initialize(userID);
-            
+      
 
         } 
         public  void Initialize(string userID)
@@ -133,7 +134,8 @@ namespace TodoList
             {
                 string typeCode = msgTable.Rows[i]["MsgTypeCode"].ToString();
                 Label lb1 = new Label(); lb1.Content = $"[{codeName[typeCode]}]";
-                string attributeCode = msgTable.Rows[i]["AttributeCode"].NullToString();
+                lb1.HorizontalContentAlignment = HorizontalAlignment.Center;
+                 string attributeCode = msgTable.Rows[i]["AttributeCode"].NullToString();
                 List<Dictionary<string, string>> attrNames = new List<Dictionary<string, string>>();
                 if (typeCode != "" || attributeCode != "")
                 {
@@ -287,7 +289,7 @@ namespace TodoList
                    {
                         Label lb_departMentName = new Label();
                         lb_departMentName.HorizontalAlignment = HorizontalAlignment.Center;
-                       lb_departMentName.Content = departmentList[splitStrDe[j]];
+                        lb_departMentName.Content = departmentList[splitStrDe[j]];
                         lb_DeptNameList.Add(lb_departMentName);
                      }
                 }
